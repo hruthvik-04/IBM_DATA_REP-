@@ -6,9 +6,9 @@ import seaborn as sns
 from sklearn.ensemble import IsolationForest
 
 # Load data from a file
-def load_data(file_path):
-    """Load data from a CSV file"""
-    return pd.read_csv("C:/Users/manjunatha.s/Desktop/ibm/Diabetes Missing Data.csv")
+def load_data(uploaded_file):
+    return pd.read_csv(uploaded_file)
+
 
 
 def check_null_values(df):
@@ -30,18 +30,17 @@ def detect_anomalies(df, columns):
     anomalies = df[df_numeric['anomaly'] == -1]  # Use df_numeric for filtering
     
     return anomalies
-
-# Streamlit UI
 st.title("📊 AI-Based Data Quality Monitoring")
 
 # Upload File
 uploaded_file = st.file_uploader("Upload CSV File", type=["csv", "xlsx"])
-if uploaded_file:
-    file_path = uploaded_file.name
-    data = load_data(file_path)
+
+if uploaded_file is not None:
+    data = load_data(uploaded_file)  # Pass the uploaded file directly
 
     st.subheader("📌 Data Preview")
     st.dataframe(data.head())
+
 
     # Perform Data Quality Checks
     null_values = check_null_values(data)
